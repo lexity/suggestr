@@ -12,7 +12,7 @@
 
   var iframe = document.createElement('iframe');
 
-  iframe.src = "/whatever.html";
+  iframe.src = "http://suggestr.thill.me/whatever.html";
 
   iframe.style.zIndex = '100003';
   iframe.scrolling = 'no';
