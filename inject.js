@@ -2,6 +2,7 @@
   console.log("running");
   var recommendation_window = document.createElement('div');
   recommendation_window.id = 'll_chat_notification';
+  recommendation_window.backgroundColor = 'white';
   recommendation_window.style.zIndex = '100003';
   recommendation_window.style.position = 'fixed';
   recommendation_window.style.width = '250px';
