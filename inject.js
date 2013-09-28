@@ -12,7 +12,7 @@
 
   var iframe = document.createElement('iframe');
 
-  iframe.src = "http://localhost:12321/whatever";
+  iframe.src = "/whatever.html";
 
   iframe.style.zIndex = '100003';
   iframe.scrolling = 'no';
