@@ -5,6 +5,8 @@ const app_secret = 'cdd5b1aef66a02797bf0b31ca51fdc03';
 const app_token = '5df6a052321393b3c2c1870d325e1cdf';
 const connection_password = '97745fd17fc4d1db689af49776587e35';
 
+const api_host = "sandbox-api.lexity.com";
+
 const httpPort = 12321;
 
 const path = process.argv[1].split('/').slice(0, -1).join('/') + '/';
@@ -31,8 +33,7 @@ function chunkedResponseHelper(cb) {
 }
 
 var req = http.request({
-  hostname: 'localhost',
-  port: 3002,
+  hostname: api_host,
   path: '/api/v1/store/dd8a30c4/products.json',
   method: 'GET',
   auth: app_secret + ':' + connection_password,
