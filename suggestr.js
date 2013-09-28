@@ -1,13 +1,13 @@
 var http = require('http');
 var fs = require('fs');
 
-const app_secret = 'cdd5b1aef66a02797bf0b31ca51fdc03';
-const app_token = '5df6a052321393b3c2c1870d325e1cdf';
-const connection_password = '97745fd17fc4d1db689af49776587e35';
+const app_secret = '151bca33027c0dbb7b1f6678856045f0';
+const connection_password = 'e6e18b140543fc14a1e728c2fc8a23f2';
 
 const api_host = "sandbox-api.lexity.com";
+const store_id = 'e759e7bd';
 
-const httpPort = 12321;
+const httpPort = 80;
 
 const path = process.argv[1].split('/').slice(0, -1).join('/') + '/';
 const INJECT_CODE = fs.readFileSync(path + "inject.js").toString();
@@ -34,7 +34,7 @@ function chunkedResponseHelper(cb) {
 
 var req = http.request({
   hostname: api_host,
-  path: '/api/v1/store/dd8a30c4/products.json',
+  path: '/api/v1/store/'+store_id+'/products.json',
   method: 'GET',
   auth: app_secret + ':' + connection_password,
   headers: {'Content-Type': 'application/json'},
