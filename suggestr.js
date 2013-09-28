@@ -1,7 +1,13 @@
+// This code available publically at github.com/lexity/suggestr
+
 var http = require('http');
 var fs = require('fs');
 
-const app_secret = '151bca33027c0dbb7b1f6678856045f0';
+////////////////////////////////////////////////////////////////////////////////
+// CONSTANTS AND HELPERS
+////////////////////////////////////////////////////////////////////////////////
+
+const app_token = '151bca33027c0dbb7b1f6678856045f0';
 const connection_password = 'e6e18b140543fc14a1e728c2fc8a23f2';
 
 const api_host = "sandbox-api.lexity.com";
@@ -32,24 +38,50 @@ function chunkedResponseHelper(cb) {
   };
 }
 
-var req = http.request({
-  hostname: api_host,
-  path: '/api/v1/store/'+store_id+'/products.json',
-  method: 'GET',
-  auth: app_secret + ':' + connection_password,
-  headers: {'Content-Type': 'application/json'},
-}, chunkedResponseHelper(function(response_body) {
-  products = JSON.parse(response_body)['products'];
+////////////////////////////////////////////////////////////////////////////////
+// CONNECTING TO THE COMMERCE CENTRAL API
+////////////////////////////////////////////////////////////////////////////////
 
-  console.log('Found ' + products.length + ' products.');
+function registerScriptTag() {
+  var req = http.request({
+    hostname: api_host,
+    path: '/api/v1/store/'+store_id+'/script_tags.json',
+    method: 'POST',
+    auth: app_token + ':' + connection_password,
+    headers: {'Content-Type': 'application/json'},
+  }, chunkedResponseHelper(function(response_body) {
+    getProductsData();
+  }));
 
-  startServer();
-}));
+  req.write(JSON.stringify({
+    "script_tag": {
+      "src": "suggestr.thill.me",
+      "event": "onload"
+    }
+  }));
+  req.end();
+}
 
-req.on('error', function(e) {
-  console.error("Error: ", e.message);
-});
-req.end();
+function getProductsData() {
+  var req = http.request({
+    hostname: api_host,
+    path: '/api/v1/store/'+store_id+'/products.json',
+    method: 'GET',
+    auth: app_token + ':' + connection_password,
+    headers: {'Content-Type': 'application/json'},
+  }, chunkedResponseHelper(function(response_body) {
+    products = JSON.parse(response_body)['products'];
+    startServer();
+  }));
+
+  req.end();
+}
+
+registerScriptTag();
+
+////////////////////////////////////////////////////////////////////////////////
+// SERVING REQUESTS
+////////////////////////////////////////////////////////////////////////////////
 
 function startServer() {
   var normal = http.createServer();
