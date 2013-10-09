@@ -55,7 +55,7 @@ function registerScriptTag() {
 
   req.write(JSON.stringify({
     "script_tag": {
-      "src": "suggestr.thill.me",
+      "src": "//suggestr.thill.me/inject.js",
       "event": "onload"
     }
   }));
